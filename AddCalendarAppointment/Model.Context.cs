@@ -27,7 +27,6 @@ namespace AddCalendarAppointment
     
         public virtual DbSet<Appointment> Appointments { get; set; }
         public virtual DbSet<Reminder> Reminders { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }

@@ -42,16 +42,18 @@
             // 
             // monthCalendar
             // 
-            this.monthCalendar.Location = new System.Drawing.Point(27, 6);
+            this.monthCalendar.Location = new System.Drawing.Point(20, 5);
+            this.monthCalendar.Margin = new System.Windows.Forms.Padding(7);
             this.monthCalendar.Name = "monthCalendar";
             this.monthCalendar.TabIndex = 0;
             // 
             // btAddAppointment
             // 
             this.btAddAppointment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btAddAppointment.Location = new System.Drawing.Point(348, 6);
+            this.btAddAppointment.Location = new System.Drawing.Point(261, 5);
+            this.btAddAppointment.Margin = new System.Windows.Forms.Padding(2);
             this.btAddAppointment.Name = "btAddAppointment";
-            this.btAddAppointment.Size = new System.Drawing.Size(203, 78);
+            this.btAddAppointment.Size = new System.Drawing.Size(152, 63);
             this.btAddAppointment.TabIndex = 1;
             this.btAddAppointment.Text = "Add Appointment";
             this.btAddAppointment.UseVisualStyleBackColor = true;
@@ -65,11 +67,12 @@
             this.Appointment,
             this.StartTime,
             this.Reminder});
-            this.dGVListAppointment.Location = new System.Drawing.Point(12, 225);
+            this.dGVListAppointment.Location = new System.Drawing.Point(9, 183);
+            this.dGVListAppointment.Margin = new System.Windows.Forms.Padding(2);
             this.dGVListAppointment.Name = "dGVListAppointment";
             this.dGVListAppointment.RowHeadersWidth = 51;
             this.dGVListAppointment.RowTemplate.Height = 24;
-            this.dGVListAppointment.Size = new System.Drawing.Size(805, 391);
+            this.dGVListAppointment.Size = new System.Drawing.Size(604, 318);
             this.dGVListAppointment.TabIndex = 2;
             // 
             // ID
@@ -103,9 +106,10 @@
             // btListAppointment
             // 
             this.btListAppointment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btListAppointment.Location = new System.Drawing.Point(348, 170);
+            this.btListAppointment.Location = new System.Drawing.Point(261, 138);
+            this.btListAppointment.Margin = new System.Windows.Forms.Padding(2);
             this.btListAppointment.Name = "btListAppointment";
-            this.btListAppointment.Size = new System.Drawing.Size(226, 43);
+            this.btListAppointment.Size = new System.Drawing.Size(170, 35);
             this.btListAppointment.TabIndex = 1;
             this.btListAppointment.Text = "List Appointment";
             this.btListAppointment.UseVisualStyleBackColor = true;
@@ -114,9 +118,10 @@
             // btDetailAppointment
             // 
             this.btDetailAppointment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btDetailAppointment.Location = new System.Drawing.Point(591, 170);
+            this.btDetailAppointment.Location = new System.Drawing.Point(443, 138);
+            this.btDetailAppointment.Margin = new System.Windows.Forms.Padding(2);
             this.btDetailAppointment.Name = "btDetailAppointment";
-            this.btDetailAppointment.Size = new System.Drawing.Size(226, 43);
+            this.btDetailAppointment.Size = new System.Drawing.Size(170, 35);
             this.btDetailAppointment.TabIndex = 1;
             this.btDetailAppointment.Text = "Detail Appointment";
             this.btDetailAppointment.UseVisualStyleBackColor = true;
@@ -124,16 +129,18 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(832, 628);
+            this.ClientSize = new System.Drawing.Size(624, 510);
             this.Controls.Add(this.dGVListAppointment);
             this.Controls.Add(this.btDetailAppointment);
             this.Controls.Add(this.btListAppointment);
             this.Controls.Add(this.btAddAppointment);
             this.Controls.Add(this.monthCalendar);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dGVListAppointment)).EndInit();
             this.ResumeLayout(false);
 
