@@ -18,7 +18,7 @@ namespace AddCalendarAppointment.Forms
         private readonly Appointment_DTO _appointment;
         //private readonly IReminderService _reminderService; //later
         private readonly IAppointmentService _appointmentService;
-        public AppointmentForm(Appointment_DTO appointment, IAppointmentService appointmentService)
+        public AppointmentForm(IAppointmentService appointmentService,Appointment_DTO appointment)
         {
             _appointment = appointment;
             _appointmentService = appointmentService;

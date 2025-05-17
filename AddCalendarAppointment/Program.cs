@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AddCalendarAppointment.Services;
 using AddCalendarAppointment.Services.Interfaces;
+using AddCalendarAppointment.Forms;
 
 namespace AddCalendarAppointment
 {
@@ -20,7 +21,11 @@ namespace AddCalendarAppointment
             var services = new ServiceCollection();
             services.AddScoped<OOAD_AddCalendarAppointmentEntities>();
             services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<MainForm>();
+            services.AddScoped<AppointmentForm>();
+            services.AddScoped<Login>();
+            services.AddScoped<Register>();
             var serviceProvider = services.BuildServiceProvider();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

@@ -11,14 +11,19 @@ using AddCalendarAppointment.Forms;
 using System.Data.Entity;
 using AddCalendarAppointment.DTO;
 using AddCalendarAppointment.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AddCalendarAppointment
 {
     public partial class MainForm: Form
-    {   
+    {
+        private readonly IServiceProvider _rootProvider;
+        private readonly IUserService _userSvc;
         private readonly IAppointmentService _appointmentService;
-        public MainForm(IAppointmentService appointmentService)
+        public MainForm(IServiceProvider rootProvider,IAppointmentService appointmentService, IUserService userSvc)
         {
+            _rootProvider = rootProvider;
+            _userSvc = userSvc;
             _appointmentService = appointmentService;
             InitializeComponent();
         }
@@ -47,14 +52,20 @@ namespace AddCalendarAppointment
                     isGroup = false,
                     createdBy = null,
                 };
-                using (AppointmentForm appf = new AppointmentForm(appointment, _appointmentService))
+                using (var scope = _rootProvider.CreateScope())
                 {
-                    appf.ShowDialog();
+                    var apptForm = ActivatorUtilities.CreateInstance<AppointmentForm>(
+                        scope.ServiceProvider,
+                        appointment
+                    );
+
+                    apptForm.ShowDialog();
                 }
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
 
@@ -76,10 +87,32 @@ namespace AddCalendarAppointment
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
+            UpdateLoginButton();
         }
-
+        private void UpdateLoginButton()
+        {
+            var u = _userSvc.CurrentUser;
+            loginbtn.Text = (u.UserID == 1)
+                ? "Login"
+                : $"Logout ({u.Username})";
+        }
         private void loginbtn_Click(object sender, EventArgs e)
         {
+            if (_userSvc.CurrentUser.UserID == 1)
+            {
+                // Show LoginForm
+                using (var login = _rootProvider.GetRequiredService<Login>())
+                {
+                    if (login.ShowDialog() == DialogResult.OK)
+                        UpdateLoginButton();
+                }
+            }
+            else
+            {
+                // Perform Logout
+                _userSvc.Logout();
+                UpdateLoginButton();
+            }
 
         }
     }

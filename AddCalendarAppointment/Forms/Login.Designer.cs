@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.userlbl = new System.Windows.Forms.Label();
-            this.usertxt = new System.Windows.Forms.TextBox();
+            this.usernametxt = new System.Windows.Forms.TextBox();
             this.passwordlbl = new System.Windows.Forms.Label();
             this.passwordtxt = new System.Windows.Forms.TextBox();
             this.loginbtn = new System.Windows.Forms.Button();
@@ -45,12 +45,12 @@
             this.userlbl.Text = "Username";
             this.userlbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // usertxt
+            // usernametxt
             // 
-            this.usertxt.Location = new System.Drawing.Point(264, 56);
-            this.usertxt.Name = "usertxt";
-            this.usertxt.Size = new System.Drawing.Size(254, 20);
-            this.usertxt.TabIndex = 1;
+            this.usernametxt.Location = new System.Drawing.Point(264, 56);
+            this.usernametxt.Name = "usernametxt";
+            this.usernametxt.Size = new System.Drawing.Size(254, 20);
+            this.usernametxt.TabIndex = 1;
             // 
             // passwordlbl
             // 
@@ -96,7 +96,7 @@
             this.Controls.Add(this.loginbtn);
             this.Controls.Add(this.passwordtxt);
             this.Controls.Add(this.passwordlbl);
-            this.Controls.Add(this.usertxt);
+            this.Controls.Add(this.usernametxt);
             this.Controls.Add(this.userlbl);
             this.Name = "Login";
             this.Text = "Login";
@@ -108,7 +108,7 @@
         #endregion
 
         private System.Windows.Forms.Label userlbl;
-        private System.Windows.Forms.TextBox usertxt;
+        private System.Windows.Forms.TextBox usernametxt;
         private System.Windows.Forms.Label passwordlbl;
         private System.Windows.Forms.TextBox passwordtxt;
         private System.Windows.Forms.Button loginbtn;
