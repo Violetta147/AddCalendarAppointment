@@ -61,7 +61,7 @@ namespace AddCalendarAppointment.Services
                 Location = appointment.Location,
                 startTime = appointment.StartTime,
                 endTime = appointment.EndTime,
-                isGroup = appointment.IsGroup ?? false,
+                isGroup = appointment.IsGroup,
                 createdBy = appointment.CreatedBy,
                 //other properties
             };
@@ -71,18 +71,19 @@ namespace AddCalendarAppointment.Services
             if (dto == null)
                 return null;
 
-
             Appointment appointment = new Appointment
             {
-                AppointmentID = dto.Id.HasValue ? dto.Id.Value : 0,
                 Name = dto.Name,
                 Location = dto.Location,
                 StartTime = dto.startTime,
                 EndTime = dto.endTime,
                 IsGroup = dto.isGroup,
-                CreatedBy = dto.createdBy.HasValue ? dto.createdBy.Value : 0
+                CreatedBy = dto.createdBy
                 // Map other properties as needed
             };
+
+            if (dto.Id.HasValue)
+                appointment.AppointmentID = dto.Id.Value;
 
             return appointment;
         }

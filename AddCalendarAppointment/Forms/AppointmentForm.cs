@@ -34,18 +34,39 @@ namespace AddCalendarAppointment.Forms
             txtLocation.Text = _appointment.Location;
             dTPStartTime.Value = _appointment.startTime;
             dTPEndTime.Value = _appointment.endTime;
+            if (_appointment.isGroup)
+            {
+                grouprb.Checked = true;
+            }
+            else
+            {
+                grouprb.Checked = false;
+            }
         }
 
         private void btOK_Click(object sender, EventArgs e)
         {
-            // xử lý thêm, sửa appointment
-            _appointment.CreatorName = txtCreaatorName.Text;
+            if (string.IsNullOrWhiteSpace(txtAppointmentName.Text))
+            {
+                MessageBox.Show("Appointment name cannot be empty.");
+                return;
+            }
+            if (dTPEndTime.Value <= dTPStartTime.Value)
+            {
+                MessageBox.Show("End time must be after start time.");
+                return;
+            }
             _appointment.Name = txtAppointmentName.Text;
             _appointment.Location = txtLocation.Text;
             _appointment.startTime = dTPStartTime.Value;
             _appointment.endTime = dTPEndTime.Value;
+            _appointment.createdBy = _appointment.createdBy;
+            _appointment.isGroup = grouprb.Checked;
+            //other properties
             Appointment appointmentEntity = _appointmentService.ConvertFromDTO(_appointment);
+            //if new appointment
             _appointmentService.CreateAppointment(appointmentEntity);
+            //if update appointment
             MessageBox.Show("Appointment created successfully");
             this.Close();
         }

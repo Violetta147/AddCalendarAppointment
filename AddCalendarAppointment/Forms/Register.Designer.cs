@@ -65,6 +65,7 @@
             // 
             this.confirmpasswordtxt.Location = new System.Drawing.Point(174, 168);
             this.confirmpasswordtxt.Name = "confirmpasswordtxt";
+            this.confirmpasswordtxt.PasswordChar = '*';
             this.confirmpasswordtxt.Size = new System.Drawing.Size(257, 20);
             this.confirmpasswordtxt.TabIndex = 3;
             // 
@@ -113,6 +114,7 @@
             this.registerbtn.TabIndex = 8;
             this.registerbtn.Text = "REGISTER";
             this.registerbtn.UseVisualStyleBackColor = true;
+            this.registerbtn.Click += new System.EventHandler(this.registerbtn_Click);
             // 
             // Register
             // 

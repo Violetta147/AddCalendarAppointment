@@ -26,7 +26,7 @@ namespace AddCalendarAppointment
         public string Location { get; set; }
         public System.DateTime StartTime { get; set; }
         public System.DateTime EndTime { get; set; }
-        public Nullable<bool> IsGroup { get; set; }
+        public bool IsGroup { get; set; }
         public int CreatedBy { get; set; }
     
         public virtual User User { get; set; }

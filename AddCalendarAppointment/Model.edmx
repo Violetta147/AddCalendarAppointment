@@ -22,7 +22,7 @@
           <Property Name="Location" Type="nvarchar" MaxLength="200" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="EndTime" Type="datetime" Nullable="false" />
-          <Property Name="IsGroup" Type="bit" />
+          <Property Name="IsGroup" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Reminders">
@@ -43,19 +43,7 @@
           <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Appointme__Appoi__3D5E1FD2">
-          <End Role="Appointments" Type="Self.Appointments" Multiplicity="1" />
-          <End Role="AppointmentParticipants" Type="Self.AppointmentParticipants" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Appointments">
-              <PropertyRef Name="AppointmentID" />
-            </Principal>
-            <Dependent Role="AppointmentParticipants">
-              <PropertyRef Name="AppointmentID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Appointme__Creat__3A81B327">
+        <Association Name="FK_Appointments_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
           <ReferentialConstraint>
@@ -67,7 +55,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Appointme__UserI__3E52440B">
+        <Association Name="FK_APPTPART_Appt">
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="1" />
+          <End Role="AppointmentParticipants" Type="Self.AppointmentParticipants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentID" />
+            </Principal>
+            <Dependent Role="AppointmentParticipants">
+              <PropertyRef Name="AppointmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_APPTPART_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="AppointmentParticipants" Type="Self.AppointmentParticipants" Multiplicity="*" />
           <ReferentialConstraint>
@@ -79,7 +79,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Reminders__Appoi__412EB0B6">
+        <Association Name="FK_Reminders_Appt">
           <End Role="Appointments" Type="Self.Appointments" Multiplicity="1" />
           <End Role="Reminders" Type="Self.Reminders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -96,19 +96,19 @@
           <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reminders" EntityType="Self.Reminders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Appointme__Appoi__3D5E1FD2" Association="Self.FK__Appointme__Appoi__3D5E1FD2">
-            <End Role="Appointments" EntitySet="Appointments" />
-            <End Role="AppointmentParticipants" EntitySet="AppointmentParticipants" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Appointme__Creat__3A81B327" Association="Self.FK__Appointme__Creat__3A81B327">
+          <AssociationSet Name="FK_Appointments_Users" Association="Self.FK_Appointments_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Appointments" EntitySet="Appointments" />
           </AssociationSet>
-          <AssociationSet Name="FK__Appointme__UserI__3E52440B" Association="Self.FK__Appointme__UserI__3E52440B">
+          <AssociationSet Name="FK_APPTPART_Appt" Association="Self.FK_APPTPART_Appt">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="AppointmentParticipants" EntitySet="AppointmentParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_APPTPART_Users" Association="Self.FK_APPTPART_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="AppointmentParticipants" EntitySet="AppointmentParticipants" />
           </AssociationSet>
-          <AssociationSet Name="FK__Reminders__Appoi__412EB0B6" Association="Self.FK__Reminders__Appoi__412EB0B6">
+          <AssociationSet Name="FK_Reminders_Appt" Association="Self.FK_Reminders_Appt">
             <End Role="Appointments" EntitySet="Appointments" />
             <End Role="Reminders" EntitySet="Reminders" />
           </AssociationSet>
@@ -127,10 +127,10 @@
           <Property Name="Location" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsGroup" Type="Boolean" />
+          <Property Name="IsGroup" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK__Appointme__Creat__3A81B327" FromRole="Appointments" ToRole="Users" />
-          <NavigationProperty Name="Reminders" Relationship="Self.FK__Reminders__Appoi__412EB0B6" FromRole="Appointments" ToRole="Reminders" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Appointments_Users" FromRole="Appointments" ToRole="Users" />
+          <NavigationProperty Name="Reminders" Relationship="Self.FK_Reminders_Appt" FromRole="Appointments" ToRole="Reminders" />
           <NavigationProperty Name="Users" Relationship="Self.AppointmentParticipants" FromRole="Appointments" ToRole="Users" />
         </EntityType>
         <EntityType Name="Reminder">
@@ -141,7 +141,7 @@
           <Property Name="AppointmentID" Type="Int32" Nullable="false" />
           <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="ReminderTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Appointment" Relationship="Self.FK__Reminders__Appoi__412EB0B6" FromRole="Reminders" ToRole="Appointments" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK_Reminders_Appt" FromRole="Reminders" ToRole="Appointments" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -151,10 +151,10 @@
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Appointments" Relationship="Self.FK__Appointme__Creat__3A81B327" FromRole="Users" ToRole="Appointments" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Users" FromRole="Users" ToRole="Appointments" />
           <NavigationProperty Name="Appointments1" Relationship="Self.AppointmentParticipants" FromRole="Users" ToRole="Appointments" />
         </EntityType>
-        <Association Name="FK__Appointme__Creat__3A81B327">
+        <Association Name="FK_Appointments_Users">
           <End Role="Users" Type="Self.User" Multiplicity="1" />
           <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -166,7 +166,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Reminders__Appoi__412EB0B6">
+        <Association Name="FK_Reminders_Appt">
           <End Role="Appointments" Type="Self.Appointment" Multiplicity="1" />
           <End Role="Reminders" Type="Self.Reminder" Multiplicity="*" />
           <ReferentialConstraint>
@@ -186,11 +186,11 @@
           <EntitySet Name="Appointments" EntityType="Self.Appointment" />
           <EntitySet Name="Reminders" EntityType="Self.Reminder" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK__Appointme__Creat__3A81B327" Association="Self.FK__Appointme__Creat__3A81B327">
+          <AssociationSet Name="FK_Appointments_Users" Association="Self.FK_Appointments_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Appointments" EntitySet="Appointments" />
           </AssociationSet>
-          <AssociationSet Name="FK__Reminders__Appoi__412EB0B6" Association="Self.FK__Reminders__Appoi__412EB0B6">
+          <AssociationSet Name="FK_Reminders_Appt" Association="Self.FK_Reminders_Appt">
             <End Role="Appointments" EntitySet="Appointments" />
             <End Role="Reminders" EntitySet="Reminders" />
           </AssociationSet>

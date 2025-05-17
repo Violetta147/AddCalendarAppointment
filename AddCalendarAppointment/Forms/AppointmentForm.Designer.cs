@@ -41,11 +41,15 @@
             this.txtLocation = new System.Windows.Forms.TextBox();
             this.CreatorName = new System.Windows.Forms.Label();
             this.txtCreaatorName = new System.Windows.Forms.TextBox();
+            this.singlerb = new System.Windows.Forms.RadioButton();
+            this.grouprb = new System.Windows.Forms.RadioButton();
+            this.typegb = new System.Windows.Forms.GroupBox();
+            this.typegb.SuspendLayout();
             this.SuspendLayout();
             // 
             // btOK
             // 
-            this.btOK.Location = new System.Drawing.Point(260, 303);
+            this.btOK.Location = new System.Drawing.Point(257, 370);
             this.btOK.Margin = new System.Windows.Forms.Padding(2);
             this.btOK.Name = "btOK";
             this.btOK.Size = new System.Drawing.Size(85, 43);
@@ -96,7 +100,7 @@
             // 
             // btDelete
             // 
-            this.btDelete.Location = new System.Drawing.Point(447, 303);
+            this.btDelete.Location = new System.Drawing.Point(446, 370);
             this.btDelete.Margin = new System.Windows.Forms.Padding(2);
             this.btDelete.Name = "btDelete";
             this.btDelete.Size = new System.Drawing.Size(75, 43);
@@ -127,7 +131,7 @@
             // 
             // btReminder
             // 
-            this.btReminder.Location = new System.Drawing.Point(69, 303);
+            this.btReminder.Location = new System.Drawing.Point(66, 370);
             this.btReminder.Margin = new System.Windows.Forms.Padding(2);
             this.btReminder.Name = "btReminder";
             this.btReminder.Size = new System.Drawing.Size(87, 43);
@@ -167,14 +171,50 @@
             this.txtCreaatorName.Location = new System.Drawing.Point(195, 37);
             this.txtCreaatorName.Margin = new System.Windows.Forms.Padding(2);
             this.txtCreaatorName.Name = "txtCreaatorName";
+            this.txtCreaatorName.ReadOnly = true;
             this.txtCreaatorName.Size = new System.Drawing.Size(284, 20);
             this.txtCreaatorName.TabIndex = 6;
+            // 
+            // singlerb
+            // 
+            this.singlerb.AutoSize = true;
+            this.singlerb.Checked = true;
+            this.singlerb.Location = new System.Drawing.Point(11, 19);
+            this.singlerb.Name = "singlerb";
+            this.singlerb.Size = new System.Drawing.Size(58, 17);
+            this.singlerb.TabIndex = 7;
+            this.singlerb.TabStop = true;
+            this.singlerb.Text = "Normal";
+            this.singlerb.UseVisualStyleBackColor = true;
+            // 
+            // grouprb
+            // 
+            this.grouprb.AutoSize = true;
+            this.grouprb.Location = new System.Drawing.Point(11, 42);
+            this.grouprb.Name = "grouprb";
+            this.grouprb.Size = new System.Drawing.Size(92, 17);
+            this.grouprb.TabIndex = 8;
+            this.grouprb.TabStop = true;
+            this.grouprb.Text = "GroupMeeting";
+            this.grouprb.UseVisualStyleBackColor = true;
+            // 
+            // typegb
+            // 
+            this.typegb.Controls.Add(this.grouprb);
+            this.typegb.Controls.Add(this.singlerb);
+            this.typegb.Location = new System.Drawing.Point(101, 272);
+            this.typegb.Name = "typegb";
+            this.typegb.Size = new System.Drawing.Size(200, 78);
+            this.typegb.TabIndex = 9;
+            this.typegb.TabStop = false;
+            this.typegb.Text = "==Meeting Type==";
             // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 366);
+            this.ClientSize = new System.Drawing.Size(600, 424);
+            this.Controls.Add(this.typegb);
             this.Controls.Add(this.txtCreaatorName);
             this.Controls.Add(this.CreatorName);
             this.Controls.Add(this.dTPEndTime);
@@ -191,6 +231,8 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "AppointmentForm";
             this.Text = "AppointmentForm";
+            this.typegb.ResumeLayout(false);
+            this.typegb.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,5 +253,8 @@
         private System.Windows.Forms.TextBox txtLocation;
         private System.Windows.Forms.Label CreatorName;
         private System.Windows.Forms.TextBox txtCreaatorName;
+        private System.Windows.Forms.RadioButton singlerb;
+        private System.Windows.Forms.RadioButton grouprb;
+        private System.Windows.Forms.GroupBox typegb;
     }
 }

@@ -21,7 +21,8 @@ namespace AddCalendarAppointment
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+
+        private void loginbtn_Click(object sender, EventArgs e)
         {
             var user = _userSvc.Authenticate(
                 usernametxt.Text,
@@ -37,8 +38,7 @@ namespace AddCalendarAppointment
                 MessageBox.Show("Invalid username or password.");
             }
         }
-
-        private void btnGoToRegister_Click(object sender, EventArgs e)
+        private void registerbtn_Click(object sender, EventArgs e)
         {
             using (var reg = new Register(_userSvc))
             {

@@ -20,7 +20,7 @@ namespace AddCalendarAppointment.Forms
             _userSvc = userSvc;
             InitializeComponent();
         }
-        private void btnRegister_Click(object sender, EventArgs e)
+        private void registerbtn_Click(object sender, EventArgs e)
         {
             if (passwordtxt.Text != confirmpasswordtxt.Text)
             {

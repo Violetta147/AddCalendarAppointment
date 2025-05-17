@@ -20,7 +20,7 @@ namespace AddCalendarAppointment.DTO
 
         public bool isGroup { get; set; }
 
-        public int? createdBy { get; set; }
+        public int createdBy { get; set; }
 
     }
 }

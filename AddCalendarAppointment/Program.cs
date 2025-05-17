@@ -21,7 +21,7 @@ namespace AddCalendarAppointment
             var services = new ServiceCollection();
             services.AddScoped<OOAD_AddCalendarAppointmentEntities>();
             services.AddScoped<IAppointmentService, AppointmentService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddSingleton<IUserService, UserService>();
             services.AddScoped<MainForm>();
             services.AddScoped<AppointmentForm>();
             services.AddScoped<Login>();
