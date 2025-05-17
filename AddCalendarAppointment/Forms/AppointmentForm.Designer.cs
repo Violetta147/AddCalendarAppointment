@@ -39,8 +39,6 @@
             this.btReminder = new System.Windows.Forms.Button();
             this.txtAppointmentName = new System.Windows.Forms.TextBox();
             this.txtLocation = new System.Windows.Forms.TextBox();
-            this.txtID = new System.Windows.Forms.TextBox();
-            this.txtUserId = new System.Windows.Forms.TextBox();
             this.CreatorName = new System.Windows.Forms.Label();
             this.txtCreaatorName = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
@@ -154,26 +152,6 @@
             this.txtLocation.Size = new System.Drawing.Size(284, 20);
             this.txtLocation.TabIndex = 2;
             // 
-            // txtID
-            // 
-            this.txtID.Location = new System.Drawing.Point(576, 11);
-            this.txtID.Margin = new System.Windows.Forms.Padding(2);
-            this.txtID.Name = "txtID";
-            this.txtID.ReadOnly = true;
-            this.txtID.Size = new System.Drawing.Size(13, 20);
-            this.txtID.TabIndex = 2;
-            this.txtID.Visible = false;
-            // 
-            // txtUserId
-            // 
-            this.txtUserId.Location = new System.Drawing.Point(576, 37);
-            this.txtUserId.Margin = new System.Windows.Forms.Padding(2);
-            this.txtUserId.Name = "txtUserId";
-            this.txtUserId.ReadOnly = true;
-            this.txtUserId.Size = new System.Drawing.Size(13, 20);
-            this.txtUserId.TabIndex = 4;
-            this.txtUserId.Visible = false;
-            // 
             // CreatorName
             // 
             this.CreatorName.AutoSize = true;
@@ -199,8 +177,6 @@
             this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.txtCreaatorName);
             this.Controls.Add(this.CreatorName);
-            this.Controls.Add(this.txtUserId);
-            this.Controls.Add(this.txtID);
             this.Controls.Add(this.dTPEndTime);
             this.Controls.Add(this.dTPStartTime);
             this.Controls.Add(this.txtLocation);
@@ -233,8 +209,6 @@
         private System.Windows.Forms.Button btReminder;
         private System.Windows.Forms.TextBox txtAppointmentName;
         private System.Windows.Forms.TextBox txtLocation;
-        private System.Windows.Forms.TextBox txtID;
-        private System.Windows.Forms.TextBox txtUserId;
         private System.Windows.Forms.Label CreatorName;
         private System.Windows.Forms.TextBox txtCreaatorName;
     }

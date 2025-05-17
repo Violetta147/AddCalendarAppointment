@@ -47,7 +47,7 @@ namespace AddCalendarAppointment
                     isGroup = false,
                     createdBy = null,
                 };
-                using (AppointmentForm appf = new AppointmentForm(appointment))
+                using (AppointmentForm appf = new AppointmentForm(appointment, _appointmentService))
                 {
                     appf.ShowDialog();
                 }
@@ -76,6 +76,11 @@ namespace AddCalendarAppointment
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
+        }
+
+        private void loginbtn_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -17,9 +17,11 @@ namespace AddCalendarAppointment.Forms
     {
         private readonly Appointment_DTO _appointment;
         //private readonly IReminderService _reminderService; //later
-        public AppointmentForm(Appointment_DTO appointment)
+        private readonly IAppointmentService _appointmentService;
+        public AppointmentForm(Appointment_DTO appointment, IAppointmentService appointmentService)
         {
             _appointment = appointment;
+            _appointmentService = appointmentService;
             //_reminderService = reminderService;
             InitializeComponent();
             LoadUI();
@@ -27,8 +29,6 @@ namespace AddCalendarAppointment.Forms
 
         public void LoadUI() 
         {   
-            txtID.Text = _appointment.Id == null ? string.Empty : _appointment.Id.ToString();
-            txtUserId.Text = _appointment.createdBy == null ? string.Empty : _appointment.createdBy.ToString();
             txtCreaatorName.Text = _appointment.CreatorName;
             txtAppointmentName.Text = _appointment.Name;
             txtLocation.Text = _appointment.Location;
@@ -39,7 +39,15 @@ namespace AddCalendarAppointment.Forms
         private void btOK_Click(object sender, EventArgs e)
         {
             // xử lý thêm, sửa appointment
-
+            _appointment.CreatorName = txtCreaatorName.Text;
+            _appointment.Name = txtAppointmentName.Text;
+            _appointment.Location = txtLocation.Text;
+            _appointment.startTime = dTPStartTime.Value;
+            _appointment.endTime = dTPEndTime.Value;
+            Appointment appointmentEntity = _appointmentService.ConvertFromDTO(_appointment);
+            _appointmentService.CreateAppointment(appointmentEntity);
+            MessageBox.Show("Appointment created successfully");
+            this.Close();
         }
 
         private void btReminder_Click(object sender, EventArgs e)

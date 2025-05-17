@@ -37,6 +37,7 @@
             this.Reminder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btListAppointment = new System.Windows.Forms.Button();
             this.btDetailAppointment = new System.Windows.Forms.Button();
+            this.loginbtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dGVListAppointment)).BeginInit();
             this.SuspendLayout();
             // 
@@ -127,11 +128,24 @@
             this.btDetailAppointment.UseVisualStyleBackColor = true;
             this.btDetailAppointment.Click += new System.EventHandler(this.btDetailAppointment_Click);
             // 
+            // loginbtn
+            // 
+            this.loginbtn.BackColor = System.Drawing.Color.Lime;
+            this.loginbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loginbtn.Location = new System.Drawing.Point(537, 12);
+            this.loginbtn.Name = "loginbtn";
+            this.loginbtn.Size = new System.Drawing.Size(75, 23);
+            this.loginbtn.TabIndex = 3;
+            this.loginbtn.Text = "LOGIN";
+            this.loginbtn.UseVisualStyleBackColor = false;
+            this.loginbtn.Click += new System.EventHandler(this.loginbtn_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 510);
+            this.Controls.Add(this.loginbtn);
             this.Controls.Add(this.dGVListAppointment);
             this.Controls.Add(this.btDetailAppointment);
             this.Controls.Add(this.btListAppointment);
@@ -157,6 +171,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn StartTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn Reminder;
         private System.Windows.Forms.Button btDetailAppointment;
+        private System.Windows.Forms.Button loginbtn;
     }
 }
 

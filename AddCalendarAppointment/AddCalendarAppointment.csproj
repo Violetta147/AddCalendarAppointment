@@ -101,6 +101,12 @@
     <Compile Include="Forms\ReminderControl.Designer.cs">
       <DependentUpon>ReminderControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -123,6 +129,7 @@
     </Compile>
     <Compile Include="Services\AppointmentService.cs" />
     <Compile Include="Services\Interfaces\IAppointmentService.cs" />
+    <Compile Include="Services\Interfaces\IUserService.cs" />
     <Compile Include="User.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -137,6 +144,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ReminderForm.resx">
       <DependentUpon>ReminderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
