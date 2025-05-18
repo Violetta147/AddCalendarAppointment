@@ -11,6 +11,7 @@ namespace AddCalendarAppointment.Services
     {
         private readonly OOAD_AddCalendarAppointmentEntities _ctx;
         private bool _disposed = false;
+        
         public ReminderService(OOAD_AddCalendarAppointmentEntities ctx)
         {
             _ctx = ctx;
@@ -68,6 +69,7 @@ namespace AddCalendarAppointment.Services
 
         public void Dispose()
             => _ctx.Dispose();
+            
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
@@ -79,6 +81,5 @@ namespace AddCalendarAppointment.Services
                 _disposed = true;
             }
         }
-
     }
 }

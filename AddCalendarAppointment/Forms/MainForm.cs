@@ -20,13 +20,74 @@ namespace AddCalendarAppointment
         private readonly IServiceProvider _rootProvider;
         private readonly IUserService _userSvc;
         private readonly IAppointmentService _appointmentService;
-        public MainForm(IServiceProvider rootProvider,IAppointmentService appointmentService, IUserService userSvc)
+        private readonly IReminderService _reminderService;
+        private Timer _reminderTimer;
+
+        public MainForm(IServiceProvider rootProvider, IAppointmentService appointmentService, IUserService userSvc, IReminderService reminderService)
         {
             _rootProvider = rootProvider;
             _userSvc = userSvc;
             _appointmentService = appointmentService;
+            _reminderService = reminderService;
             InitializeComponent();
-            
+            StartReminderTimer();
+        }
+
+        private void StartReminderTimer()
+        {
+            _reminderTimer = new Timer { Interval = 60 * 1000 }; // Check every minute
+            _reminderTimer.Tick += (s, e) => CheckReminders();
+            _reminderTimer.Start();
+        }
+
+        private void CheckReminders()
+        {
+            try
+            {
+                var now = DateTime.Now;
+                var dueReminders = _reminderService.GetDueReminders(now);
+
+                foreach (var reminder in dueReminders)
+                {
+                    // Fetch the associated appointment to show in the notification
+                    var appointment = _appointmentService.GetAppointmentById(reminder.AppointmentID);
+                    if (appointment == null) continue;
+
+                    // Calculate time difference from now to appointment start time
+                    string timeDescription;
+                    TimeSpan difference = appointment.StartTime - now;
+
+                    if (difference.TotalMinutes <= 1)
+                    {
+                        timeDescription = "Starting now";
+                    }
+                    else if (difference.TotalMinutes < 60)
+                    {
+                        timeDescription = $"Starting in {(int)difference.TotalMinutes} minutes";
+                    }
+                    else if (difference.TotalHours < 24)
+                    {
+                        timeDescription = $"Starting in {(int)difference.TotalHours} hours";
+                    }
+                    else
+                    {
+                        timeDescription = $"Starting in {(int)difference.TotalDays} days";
+                    }
+
+                    string message = $"Appointment: {appointment.Name}\nLocation: {appointment.Location}\n{timeDescription}\n\nReminder message: {reminder.Message}";
+                    
+                    // Hiển thị tên sự kiện cụ thể trong tiêu đề thông báo
+                    MessageBox.Show(message, $"Reminder: {appointment.Name}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                    // Xóa reminder sau khi hiển thị thông báo
+                    _reminderService.DeleteReminder(reminder.ReminderID);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't show to user to avoid UI interruption
+                Console.WriteLine($"Error checking reminders: {ex.Message}");
+            }
         }
 
         private void LoadAppointments()
@@ -186,7 +247,17 @@ namespace AddCalendarAppointment
                 // Clear the appointment list
                 dGVListAppointment.DataSource = null;
             }
+        }
 
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            if (_reminderTimer != null)
+            {
+                _reminderTimer.Stop();
+                _reminderTimer.Dispose();
+            }
+            
+            base.OnHandleDestroyed(e);
         }
     }
 }

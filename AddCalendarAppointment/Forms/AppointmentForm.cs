@@ -95,7 +95,7 @@ namespace AddCalendarAppointment.Forms
 
         private void btReminder_Click(object sender, EventArgs e)
         {
-            // If we haven’t saved anything yet, create the appointment now
+            // If we haven't saved anything yet, create the appointment now
             if (!_savedToDb)
             {
                 try
@@ -124,7 +124,9 @@ namespace AddCalendarAppointment.Forms
                 var reminderForm = ActivatorUtilities.CreateInstance<ReminderForm>(
                     scope.ServiceProvider,
                     _appointment.Id.Value,
-                    _appointment.Name);
+                    _appointment.Name,
+                    _appointmentService
+                );
 
                 reminderForm.ShowDialog();
             }
@@ -144,7 +146,7 @@ namespace AddCalendarAppointment.Forms
 
                     MessageBox.Show("Appointment deleted successfully");
 
-                    // 3) Prevent the “draft cleanup” from running:
+                    // 3) Prevent the "draft cleanup" from running:
                     _shouldCleanup = false;
 
                     // 4) We can set DialogResult to OK so that
