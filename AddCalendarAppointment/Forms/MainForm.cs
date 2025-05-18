@@ -45,7 +45,9 @@ namespace AddCalendarAppointment
             try
             {
                 var now = DateTime.Now;
-                var dueReminders = _reminderService.GetDueReminders(now, currentUserId: _userSvc.CurrentUser.UserID);   
+                var currentUser = _userSvc.CurrentUser;
+                // Chỉ lấy reminder của người dùng hiện tại
+                var dueReminders = _reminderService.GetDueReminders(now, currentUser.UserID);
 
                 foreach (var reminder in dueReminders)
                 {
@@ -99,49 +101,40 @@ namespace AddCalendarAppointment
         {
             var user = _userSvc.CurrentUser;
 
-            // Get appointments created by the current user
-            var appointments = _appointmentService.GetAppointments()
-                .Where(a => a.CreatedBy == user.UserID)
-                .ToList();
-
-            // Convert to a display-friendly format
-            var displayList = appointments.Select(a => new
+            // Create a new scope to get a fresh IAppointmentService (with a new DbContext)
+            using (var scope = _rootProvider.CreateScope())
             {
-                ID = a.AppointmentID,
-                AppointmentName = a.Name,
-                Location = a.Location,
-                StartTime = a.StartTime.ToString("g"),
-                EndTime = a.EndTime.ToString("g"),
-                Type = a.IsGroup ? "Group" : "Personal"
-                //other properties can be added here
-            }).ToList();
-            dGVListAppointment.Columns.Clear();
-            dGVListAppointment.DataSource = null;
-            dGVListAppointment.DataSource = displayList;
+                var apptSvc = scope.ServiceProvider.GetRequiredService<IAppointmentService>();
+                var appointments = apptSvc.GetAppointmentsByUserId(user.UserID);
 
+                var displayList = appointments.Select(a => new
+                {
+                    ID = a.AppointmentID,
+                    AppointmentName = a.Name,
+                    Location = a.Location,
+                    StartTime = a.StartTime.ToString("g"),
+                    EndTime = a.EndTime.ToString("g"),
+                    Type = a.IsGroup ? "Group" : "Personal"
+                }).ToList();
 
-            dGVListAppointment.Columns["ID"].Visible = false;
-
-            // Set column widths
-            dGVListAppointment.Columns["AppointmentName"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dGVListAppointment.Columns["Location"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dGVListAppointment.Columns["StartTime"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dGVListAppointment.Columns["EndTime"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dGVListAppointment.Columns["Type"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-
-            // Rename headers
-            dGVListAppointment.Columns["AppointmentName"].HeaderText = "Appointment Name";
-            dGVListAppointment.Columns["StartTime"].HeaderText = "Start Time";
-            dGVListAppointment.Columns["EndTime"].HeaderText = "End Time";
-
-            // Enable full row selection
-            dGVListAppointment.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dGVListAppointment.MultiSelect = false;
-            dGVListAppointment.ReadOnly = true;
-
-            // Optional: Make sure headers are visible
-            dGVListAppointment.ColumnHeadersVisible = true;
-            dGVListAppointment.RowHeadersVisible = false;
+                dGVListAppointment.Columns.Clear();
+                dGVListAppointment.DataSource = null;
+                dGVListAppointment.DataSource = displayList;
+                dGVListAppointment.Columns["ID"].Visible = false;
+                dGVListAppointment.Columns["AppointmentName"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dGVListAppointment.Columns["Location"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                dGVListAppointment.Columns["StartTime"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                dGVListAppointment.Columns["EndTime"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                dGVListAppointment.Columns["Type"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                dGVListAppointment.Columns["AppointmentName"].HeaderText = "Appointment Name";
+                dGVListAppointment.Columns["StartTime"].HeaderText = "Start Time";
+                dGVListAppointment.Columns["EndTime"].HeaderText = "End Time";
+                dGVListAppointment.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dGVListAppointment.MultiSelect = false;
+                dGVListAppointment.ReadOnly = true;
+                dGVListAppointment.ColumnHeadersVisible = true;
+                dGVListAppointment.RowHeadersVisible = false;
+            }
         }
 
         private void btAddAppointment_Click(object sender, EventArgs e)
@@ -171,7 +164,11 @@ namespace AddCalendarAppointment
                         appointment
                     );
 
-                    apptForm.ShowDialog();
+                    // Nếu user nhấn OK, cập nhật lại danh sách
+                    if (apptForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadAppointments();
+                    }
                 }
 
             }
@@ -183,7 +180,7 @@ namespace AddCalendarAppointment
 
         private void btListAppointment_Click(object sender, EventArgs e)
         {
-
+            
             LoadAppointments();
         }
 
@@ -209,7 +206,12 @@ namespace AddCalendarAppointment
                         dto
                     );
 
-                    detailForm.ShowDialog();
+                    // Kiểm tra nếu người dùng đã nhấn OK (nghĩa là đã lưu thay đổi)
+                    if (detailForm.ShowDialog() == DialogResult.OK)
+                    {
+                        // Cập nhật lại danh sách appointment để hiển thị dữ liệu mới
+                        LoadAppointments();
+                    }
                 }
             }
             else
@@ -374,9 +376,7 @@ namespace AddCalendarAppointment
         private List<dynamic> GetAllRemindersList()
         {
             var user = _userSvc.CurrentUser;
-            var appointments = _appointmentService.GetAppointments()
-                .Where(a => a.CreatedBy == user.UserID)
-                .ToList();
+            var appointments = _appointmentService.GetAppointmentsByUserId(user.UserID);
 
             var remindersList = new List<dynamic>();
             foreach (var appointment in appointments)

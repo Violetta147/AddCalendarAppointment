@@ -15,6 +15,7 @@ namespace AddCalendarAppointment.Services.Interfaces
 
         void DeleteRemindersByAppointmentId(int appointmentId);
         List<Reminder> GetRemindersForAppointment(int appointmentId);
+        List<Reminder> GetDueReminders(DateTime upToTime);
         List<Reminder> GetDueReminders(DateTime upToTime, int currentUserId);
     }
 }

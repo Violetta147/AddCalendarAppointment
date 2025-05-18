@@ -11,6 +11,7 @@ namespace AddCalendarAppointment.Services.Interfaces
     public interface IAppointmentService
     {
         List<Appointment> GetAppointments();
+        List<Appointment> GetAppointmentsByUserId(int userId);
         Appointment GetAppointmentById(int id);
         int CreateAppointment(Appointment appointment);
         bool UpdateAppointment(Appointment appointment);
@@ -20,7 +21,7 @@ namespace AddCalendarAppointment.Services.Interfaces
         Appointment_DTO ConvertToDTO(Appointment appointment);
 
         // Trong IAppointmentService.cs
-        List<Appointment> FindConflictingAppointments(DateTime startTime, DateTime endTime, int userId, int excludeAppointmentId = 0);
+        List<Appointment> FindConflictingAppointments(DateTime startTime, DateTime endTime, int userId, int? excludeAppointmentId = null);
         List<Appointment> FindSimilarGroupMeetings(string name, DateTime startTime, DateTime endTime, int userId);
         bool AddUserToGroupMeeting(int appointmentId, int userId);
         List<User> GetParticipants(int appointmentId);

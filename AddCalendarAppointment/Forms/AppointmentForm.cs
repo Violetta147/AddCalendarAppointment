@@ -104,8 +104,8 @@ namespace AddCalendarAppointment.Forms
             }
         }
 
-        public void LoadUI()
-        {
+        public void LoadUI() 
+        {   
             txtCreaatorName.Text = _appointment.CreatorName;
             txtAppointmentName.Text = _appointment.Name;
             txtLocation.Text = _appointment.Location;
@@ -220,12 +220,23 @@ namespace AddCalendarAppointment.Forms
             if (_savedToDb)
             {
                 // We either drafted it above, or it was an existing record:
-                _appointmentService.UpdateAppointment(appointmentEntity);
+                bool success = _appointmentService.UpdateAppointment(appointmentEntity);
+                if (!success)
+                {
+                    MessageBox.Show("Failed to update appointment. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return; // Không đặt DialogResult.OK nếu cập nhật thất bại
+                }
             }
             else
             {
                 // A truly new (never-drafted/created) appointment
                 int newId = _appointmentService.CreateAppointment(appointmentEntity);
+                if (newId <= 0)
+                {
+                    MessageBox.Show("Failed to create appointment. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return; // Không đặt DialogResult.OK nếu tạo thất bại
+                }
+                
                 _appointment.Id = newId;
                 _savedToDb = true;
             }
@@ -246,7 +257,10 @@ namespace AddCalendarAppointment.Forms
                 LoadParticipants(_appointment.Id);
             }
             
-            MessageBox.Show("Appointment created successfully");
+            string action = _savedToDbInitially ? "updated" : "created";
+            MessageBox.Show($"Appointment {action} successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // Quan trọng: Đảm bảo đặt DialogResult.OK trước khi đóng form
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

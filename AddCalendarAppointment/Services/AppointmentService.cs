@@ -19,10 +19,20 @@ namespace AddCalendarAppointment.Services
         }
         public List<Appointment> GetAppointments()
         {
-            return _context.Appointments.ToList();
+            // Luôn lấy dữ liệu mới từ database, không cache bằng cách sử dụng AsNoTracking
+            return _context.Appointments.AsNoTracking().ToList();
+        }
+        public List<Appointment> GetAppointmentsByUserId(int userId)
+        {
+            // Truy vấn cụ thể cho người dùng, không cache
+            return _context.Appointments
+                .AsNoTracking()
+                .Where(a => a.CreatedBy == userId || a.Users.Any(u => u.UserID == userId))
+                .ToList();
         }
         public Appointment GetAppointmentById(int id)
         {
+            // Đảm bảo lấy dữ liệu mới, nhưng vẫn theo dõi vì chúng ta có thể sẽ cập nhật
             return _context.Appointments.Find(id);
         }
         public int CreateAppointment(Appointment appointment)
@@ -108,7 +118,7 @@ namespace AddCalendarAppointment.Services
                 _disposed = true;
             }
         }
-        public List<Appointment> FindConflictingAppointments(DateTime startTime, DateTime endTime, int userId, int excludeAppointmentId = 0)
+        public List<Appointment> FindConflictingAppointments(DateTime startTime, DateTime endTime, int userId, int? excludeAppointmentId = null)
         {
             // Tìm các lịch hẹn chồng chéo về thời gian
             var query = _context.Appointments
@@ -119,9 +129,9 @@ namespace AddCalendarAppointment.Services
                     ((a.StartTime <= endTime && a.EndTime >= startTime)));
 
             // Loại trừ appointment hiện tại (nếu đang sửa)
-            if (excludeAppointmentId > 0)
+            if (excludeAppointmentId.HasValue)
             {
-                query = query.Where(a => a.AppointmentID != excludeAppointmentId);
+                query = query.Where(a => a.AppointmentID != excludeAppointmentId.Value);
             }
 
             return query.ToList();
