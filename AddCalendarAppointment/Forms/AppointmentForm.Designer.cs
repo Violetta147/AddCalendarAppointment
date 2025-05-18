@@ -86,7 +86,7 @@
             // 
             // dTPStartTime
             // 
-            this.dTPStartTime.CustomFormat = "dd/MM/yyyy HH:mm:ss";
+            this.dTPStartTime.CustomFormat = "dd/MM/yyyy HH:mm";
             this.dTPStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dTPStartTime.Location = new System.Drawing.Point(195, 179);
             this.dTPStartTime.Margin = new System.Windows.Forms.Padding(2);
@@ -96,7 +96,7 @@
             // 
             // dTPEndTime
             // 
-            this.dTPEndTime.CustomFormat = "dd/MM/yyyy HH:mm:ss";
+            this.dTPEndTime.CustomFormat = "dd/MM/yyyy HH:mm";
             this.dTPEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dTPEndTime.Location = new System.Drawing.Point(195, 234);
             this.dTPEndTime.Margin = new System.Windows.Forms.Padding(2);

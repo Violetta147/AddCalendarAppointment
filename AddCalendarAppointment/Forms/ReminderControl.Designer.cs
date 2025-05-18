@@ -64,8 +64,8 @@
             // 
             // dTPTime
             // 
-            this.dTPTime.CustomFormat = "dd/MM/yyyy HH:mm:ss";
-            this.dTPTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dTPTime.CustomFormat = "dd/MM/yyyy HH:mm";
+            this.dTPTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dTPTime.Location = new System.Drawing.Point(49, 88);
             this.dTPTime.Name = "dTPTime";
             this.dTPTime.Size = new System.Drawing.Size(200, 22);

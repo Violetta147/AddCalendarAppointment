@@ -45,6 +45,11 @@ namespace AddCalendarAppointment.Services
             var appointment = _context.Appointments.Find(id);
             if (appointment == null)
                 return false;
+            
+            // First, remove all participants (users) associated with this appointment
+            appointment.Users.Clear();
+            
+            // Then remove the appointment
             _context.Appointments.Remove(appointment);
             int result = _context.SaveChanges();
             return result > 0;

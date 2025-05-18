@@ -45,7 +45,7 @@ namespace AddCalendarAppointment
             try
             {
                 var now = DateTime.Now;
-                var dueReminders = _reminderService.GetDueReminders(now);
+                var dueReminders = _reminderService.GetDueReminders(now, currentUserId: _userSvc.CurrentUser.UserID);   
 
                 foreach (var reminder in dueReminders)
                 {
@@ -148,7 +148,8 @@ namespace AddCalendarAppointment
         {
             DateTime selectedDate = monthCalendar.SelectionStart;
             DateTime Now = DateTime.Now;
-            DateTime selectedDateTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, Now.Hour, Now.Minute, Now.Second);
+            // Tạo DateTime với giây = 0 cho đơn giản
+            DateTime selectedDateTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, Now.Hour, Now.Minute, 0);
             var user = _userSvc.CurrentUser;
             try
             {

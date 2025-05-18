@@ -50,9 +50,9 @@ namespace AddCalendarAppointment.Services
                    .OrderBy(r => r.ReminderTime)
                    .ToList();
 
-        public List<Reminder> GetDueReminders(DateTime upToTime)
+        public List<Reminder> GetDueReminders(DateTime upToTime, int currentUserId)
             => _ctx.Reminders
-                   .Where(r => r.ReminderTime <= upToTime)
+                   .Where(r => r.ReminderTime <= upToTime && r.Appointment.CreatedBy == currentUserId)
                    .ToList();
 
         public void DeleteRemindersByAppointmentId(int appointmentId)
