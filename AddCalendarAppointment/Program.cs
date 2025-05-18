@@ -22,7 +22,10 @@ namespace AddCalendarAppointment
             services.AddScoped<OOAD_AddCalendarAppointmentEntities>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddSingleton<IUserService, UserService>();
+            services.AddScoped<IReminderService, ReminderService>();
             services.AddScoped<MainForm>();
+            services.AddScoped<ReminderForm>();
+            services.AddScoped<ReminderControl>();
             services.AddScoped<AppointmentForm>();
             services.AddScoped<Login>();
             services.AddScoped<Register>();

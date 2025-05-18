@@ -231,6 +231,8 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "AppointmentForm";
             this.Text = "AppointmentForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AppointmentForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AppointmentForm_FormClosed);
             this.typegb.ResumeLayout(false);
             this.typegb.PerformLayout();
             this.ResumeLayout(false);

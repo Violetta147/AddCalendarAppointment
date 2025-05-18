@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using AddCalendarAppointment.Services.Interfaces;
 using AddCalendarAppointment.DTO;
+using System.Runtime.Remoting.Contexts;
 
 
 namespace AddCalendarAppointment.Services
@@ -15,6 +16,7 @@ namespace AddCalendarAppointment.Services
     {
         private readonly OOAD_AddCalendarAppointmentEntities _ctx;
         private User _current;
+        private bool _disposed = false;
 
         public UserService(OOAD_AddCalendarAppointmentEntities ctx)
         {
@@ -55,11 +57,15 @@ namespace AddCalendarAppointment.Services
         {
             _ctx?.Dispose();
         }
-        public void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!_disposed)
             {
-                _ctx?.Dispose();
+                if (disposing)
+                {
+                    _ctx.Dispose();
+                }
+                _disposed = true;
             }
         }
     }

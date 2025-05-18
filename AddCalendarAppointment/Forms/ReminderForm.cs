@@ -8,21 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AddCalendarAppointment.Forms;
+using AddCalendarAppointment.Services.Interfaces;
 
 namespace AddCalendarAppointment.Forms
 {
     public partial class ReminderForm: Form
-    {
-        public ReminderForm(string appointmentName)
+    {   
+        private readonly IReminderService _remSvc;
+        private readonly int _appointmentId;
+        public ReminderForm(IReminderService remSvc, int appointmentId, string appointmentName)
         {
             InitializeComponent();
+            _remSvc = remSvc;
+            _appointmentId = appointmentId;
             txtAppointmentName.Text = appointmentName;
+            LoadReminders();
         }
 
-        private void LoadReminders()
-        {
-            // xử lý load reminder
-        }
 
         private void btAddReminder_Click(object sender, EventArgs e)
         {
@@ -35,6 +37,22 @@ namespace AddCalendarAppointment.Forms
         private void btListReminder_Click(object sender, EventArgs e)
         {
             LoadReminders();
+        }
+        private void LoadReminders()
+        {
+            // Fetch from DB
+            var list = _remSvc
+                .GetRemindersForAppointment(_appointmentId)
+                .Select(r => new {
+                    ReminderID = r.ReminderID,
+                    Time = r.ReminderTime.ToString("g"),
+                    Message = r.Message
+                })
+                .ToList();
+
+            dGVListReminder.DataSource = list;
+            dGVListReminder.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dGVListReminder.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         private void btView_Click(object sender, EventArgs e)

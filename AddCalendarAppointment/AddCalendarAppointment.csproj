@@ -136,7 +136,9 @@
     </Compile>
     <Compile Include="Services\AppointmentService.cs" />
     <Compile Include="Services\Interfaces\IAppointmentService.cs" />
+    <Compile Include="Services\Interfaces\IReminderService.cs" />
     <Compile Include="Services\Interfaces\IUserService.cs" />
+    <Compile Include="Services\ReminderService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="User.cs">
       <DependentUpon>Model.tt</DependentUpon>
