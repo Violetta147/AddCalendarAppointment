@@ -10,7 +10,7 @@ namespace AddCalendarAppointment.DTO
 {
     public class Appointment_DTO
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public string CreatorName { get; set; }
         public string Name { get; set; }

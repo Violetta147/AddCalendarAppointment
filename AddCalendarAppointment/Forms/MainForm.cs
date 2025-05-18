@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AddCalendarAppointment
 {
-    public partial class MainForm: Form
+    public partial class MainForm : Form
     {
         private readonly IServiceProvider _rootProvider;
         private readonly IUserService _userSvc;
@@ -75,10 +75,15 @@ namespace AddCalendarAppointment
                     }
 
                     string message = $"Appointment: {appointment.Name}\nLocation: {appointment.Location}\n{timeDescription}\n\nReminder message: {reminder.Message}";
-                    
+
                     // Hiển thị tên sự kiện cụ thể trong tiêu đề thông báo
-                    MessageBox.Show(message, $"Reminder: {appointment.Name}", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+                    DialogResult result = MessageBox.Show(
+                        message,
+                        $"Reminder: {appointment.Name}",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+
                     // Xóa reminder sau khi hiển thị thông báo
                     _reminderService.DeleteReminder(reminder.ReminderID);
                 }
@@ -149,7 +154,7 @@ namespace AddCalendarAppointment
             {
                 Appointment_DTO appointment = new Appointment_DTO()
                 {
-                    Id = null,
+                    Id = 0,
                     CreatorName = user.Name,
                     Name = "Please enter the appointment name",
                     Location = "Please enter the Location",
@@ -177,7 +182,7 @@ namespace AddCalendarAppointment
 
         private void btListAppointment_Click(object sender, EventArgs e)
         {
-            
+
             LoadAppointments();
         }
 
@@ -256,8 +261,141 @@ namespace AddCalendarAppointment
                 _reminderTimer.Stop();
                 _reminderTimer.Dispose();
             }
-            
+
             base.OnHandleDestroyed(e);
         }
+
+        private void btListReminders_Click(object sender, EventArgs e)
+        {
+            ShowAllReminders();
+        }
+
+        private void ShowAllReminders()
+        {
+            // Lấy danh sách tất cả các appointment của người dùng hiện tại
+            var user = _userSvc.CurrentUser;
+            var appointments = _appointmentService.GetAppointments()
+                .Where(a => a.CreatedBy == user.UserID)
+                .ToList();
+
+            // Tạo form mới để hiển thị danh sách reminder
+            var form = new Form();
+            form.Text = "All Reminders";
+            form.Size = new Size(800, 500);
+            form.StartPosition = FormStartPosition.CenterParent;
+
+            var dgv = new DataGridView();
+            dgv.Dock = DockStyle.Fill;
+            dgv.AutoGenerateColumns = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.ReadOnly = true;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.RowHeadersVisible = false;
+
+            // Thêm các cột
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "AppointmentName",
+                HeaderText = "Appointment",
+                Width = 200,
+                DataPropertyName = "AppointmentName"
+            });
+
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Location",
+                HeaderText = "Location",
+                Width = 150,
+                DataPropertyName = "Location"
+            });
+
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "ReminderTime",
+                HeaderText = "Reminder Time",
+                Width = 150,
+                DataPropertyName = "ReminderTime"
+            });
+
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Message",
+                HeaderText = "Message",
+                Width = 250,
+                DataPropertyName = "Message"
+            });
+
+            // Lấy danh sách tất cả reminder
+            var remindersList = GetAllRemindersList();
+
+            // Hiển thị thông báo nếu không có reminder nào
+            if (remindersList.Count == 0)
+            {
+                MessageBox.Show("You don't have any reminders scheduled.", "No Reminders", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Gán dữ liệu cho DataGridView
+            dgv.DataSource = remindersList;
+
+            // Tạo nút Refresh để tải lại dữ liệu
+            var refreshButton = new Button
+            {
+                Text = "Refresh",
+                Dock = DockStyle.Bottom,
+                Height = 40
+            };
+            bool isRefreshing = false;
+
+            refreshButton.Click += (s, args) =>
+            {
+                if (!isRefreshing)
+                {
+                    isRefreshing = true;
+                    form.DialogResult = DialogResult.Retry;
+                    form.Close();
+                }
+
+            };
+
+            // Thêm controls vào form
+            form.Controls.Add(dgv);
+            form.Controls.Add(refreshButton);
+
+            DialogResult result = form.ShowDialog();
+            if (result == DialogResult.Retry)
+            {
+                Application.DoEvents(); //cho phép form cũ đóng hoàn toàn
+                ShowAllReminders();
+            }
+        }
+        private List<dynamic> GetAllRemindersList()
+        {
+            var user = _userSvc.CurrentUser;
+            var appointments = _appointmentService.GetAppointments()
+                .Where(a => a.CreatedBy == user.UserID)
+                .ToList();
+
+            var remindersList = new List<dynamic>();
+            foreach (var appointment in appointments)
+            {
+                var reminders = _reminderService.GetRemindersForAppointment(appointment.AppointmentID);
+                foreach (var reminder in reminders)
+                {
+                    remindersList.Add(new
+                    {
+                        AppointmentName = appointment.Name,
+                        Location = appointment.Location,
+                        ReminderTime = reminder.ReminderTime.ToString("g"),
+                        Message = reminder.Message,
+                        ReminderID = reminder.ReminderID,
+                        AppointmentID = appointment.AppointmentID
+                    });
+                }
+            }
+            return remindersList;
+        }
+
     }
 }

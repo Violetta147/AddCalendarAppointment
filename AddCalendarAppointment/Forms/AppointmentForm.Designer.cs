@@ -44,7 +44,13 @@
             this.singlerb = new System.Windows.Forms.RadioButton();
             this.grouprb = new System.Windows.Forms.RadioButton();
             this.typegb = new System.Windows.Forms.GroupBox();
+            this.pnParticipants = new System.Windows.Forms.Panel();
+            this.lblParticipants = new System.Windows.Forms.Label();
+            this.lvParticipants = new System.Windows.Forms.ListView();
+            this.btnAddParticipant = new System.Windows.Forms.Button();
+            this.btnViewParticipants = new System.Windows.Forms.Button();
             this.typegb.SuspendLayout();
+            this.pnParticipants.SuspendLayout();
             this.SuspendLayout();
             // 
             // btOK
@@ -209,11 +215,82 @@
             this.typegb.TabStop = false;
             this.typegb.Text = "==Meeting Type==";
             // 
+            // pnParticipants
+            // 
+            this.pnParticipants.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnParticipants.Controls.Add(this.lblParticipants);
+            this.pnParticipants.Controls.Add(this.lvParticipants);
+            this.pnParticipants.Controls.Add(this.btnAddParticipant);
+            this.pnParticipants.Controls.Add(this.btnViewParticipants);
+            this.pnParticipants.Location = new System.Drawing.Point(101, 430);
+            this.pnParticipants.Name = "pnParticipants";
+            this.pnParticipants.Size = new System.Drawing.Size(378, 200);
+            this.pnParticipants.TabIndex = 10;
+            this.pnParticipants.Visible = false;
+            // 
+            // lblParticipants
+            // 
+            this.lblParticipants.AutoSize = true;
+            this.lblParticipants.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblParticipants.Location = new System.Drawing.Point(3, 10);
+            this.lblParticipants.Name = "lblParticipants";
+            this.lblParticipants.Size = new System.Drawing.Size(86, 13);
+            this.lblParticipants.TabIndex = 0;
+            this.lblParticipants.Text = "Participants (0)";
+            // 
+            // lvParticipants
+            // 
+            this.lvParticipants.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvParticipants.FullRowSelect = true;
+            this.lvParticipants.GridLines = true;
+            this.lvParticipants.HideSelection = false;
+            this.lvParticipants.Location = new System.Drawing.Point(6, 30);
+            this.lvParticipants.Name = "lvParticipants";
+            this.lvParticipants.Size = new System.Drawing.Size(367, 135);
+            this.lvParticipants.TabIndex = 1;
+            this.lvParticipants.UseCompatibleStateImageBehavior = false;
+            this.lvParticipants.View = System.Windows.Forms.View.Details;
+            // Thêm cột cho listview
+            System.Windows.Forms.ColumnHeader columnUsername = new System.Windows.Forms.ColumnHeader();
+            System.Windows.Forms.ColumnHeader columnName = new System.Windows.Forms.ColumnHeader();
+            columnUsername.Text = "Username";
+            columnName.Text = "Name";
+            columnUsername.Width = 150;
+            columnName.Width = 210;
+            this.lvParticipants.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnUsername, columnName });
+            // 
+            // btnAddParticipant
+            // 
+            this.btnAddParticipant.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right));
+            this.btnAddParticipant.Location = new System.Drawing.Point(273, 171);
+            this.btnAddParticipant.Name = "btnAddParticipant";
+            this.btnAddParticipant.Size = new System.Drawing.Size(100, 23);
+            this.btnAddParticipant.TabIndex = 2;
+            this.btnAddParticipant.Text = "Add Participant";
+            this.btnAddParticipant.UseVisualStyleBackColor = true;
+            this.btnAddParticipant.Visible = false;
+            this.btnAddParticipant.Click += new System.EventHandler(this.btnAddParticipant_Click);
+            // 
+            // btnViewParticipants
+            // 
+            this.btnViewParticipants.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
+            this.btnViewParticipants.Location = new System.Drawing.Point(166, 171);
+            this.btnViewParticipants.Name = "btnViewParticipants";
+            this.btnViewParticipants.Size = new System.Drawing.Size(100, 23);
+            this.btnViewParticipants.TabIndex = 3;
+            this.btnViewParticipants.Text = "View Participants";
+            this.btnViewParticipants.UseVisualStyleBackColor = true;
+            this.btnViewParticipants.Visible = true;
+            this.btnViewParticipants.Click += new System.EventHandler(this.btnViewParticipants_Click);
+            // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 424);
+            this.ClientSize = new System.Drawing.Size(600, 650);
+            this.Controls.Add(this.pnParticipants);
             this.Controls.Add(this.typegb);
             this.Controls.Add(this.txtCreaatorName);
             this.Controls.Add(this.CreatorName);
@@ -235,9 +312,10 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AppointmentForm_FormClosed);
             this.typegb.ResumeLayout(false);
             this.typegb.PerformLayout();
+            this.pnParticipants.ResumeLayout(false);
+            this.pnParticipants.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -258,5 +336,10 @@
         private System.Windows.Forms.RadioButton singlerb;
         private System.Windows.Forms.RadioButton grouprb;
         private System.Windows.Forms.GroupBox typegb;
+        private System.Windows.Forms.Panel pnParticipants;
+        private System.Windows.Forms.Label lblParticipants;
+        private System.Windows.Forms.ListView lvParticipants;
+        private System.Windows.Forms.Button btnAddParticipant;
+        private System.Windows.Forms.Button btnViewParticipants;
     }
 }

@@ -41,6 +41,7 @@
             this.Location = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Appointment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btListReminders = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dGVListAppointment)).BeginInit();
             this.SuspendLayout();
             // 
@@ -109,6 +110,18 @@
             this.btDetailAppointment.UseVisualStyleBackColor = true;
             this.btDetailAppointment.Click += new System.EventHandler(this.btDetailAppointment_Click);
             // 
+            // btListReminders
+            // 
+            this.btListReminders.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btListReminders.Location = new System.Drawing.Point(625, 138);
+            this.btListReminders.Margin = new System.Windows.Forms.Padding(2);
+            this.btListReminders.Name = "btListReminders";
+            this.btListReminders.Size = new System.Drawing.Size(164, 35);
+            this.btListReminders.TabIndex = 4;
+            this.btListReminders.Text = "List All Reminders";
+            this.btListReminders.UseVisualStyleBackColor = true;
+            this.btListReminders.Click += new System.EventHandler(this.btListReminders_Click);
+            // 
             // loginbtn
             // 
             this.loginbtn.BackColor = System.Drawing.Color.Lime;
@@ -162,6 +175,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(796, 510);
+            this.Controls.Add(this.btListReminders);
             this.Controls.Add(this.loginbtn);
             this.Controls.Add(this.dGVListAppointment);
             this.Controls.Add(this.btDetailAppointment);
@@ -191,6 +205,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn StartTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn EndTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
+        private System.Windows.Forms.Button btListReminders;
     }
 }
 

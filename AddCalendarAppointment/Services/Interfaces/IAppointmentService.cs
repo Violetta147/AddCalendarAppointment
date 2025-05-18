@@ -19,6 +19,10 @@ namespace AddCalendarAppointment.Services.Interfaces
         Appointment ConvertFromDTO(Appointment_DTO dto);
         Appointment_DTO ConvertToDTO(Appointment appointment);
 
-        //bool hasScheduleConflict(Appointment appointment);
+        // Trong IAppointmentService.cs
+        List<Appointment> FindConflictingAppointments(DateTime startTime, DateTime endTime, int userId, int excludeAppointmentId = 0);
+        List<Appointment> FindSimilarGroupMeetings(string name, DateTime startTime, DateTime endTime, int userId);
+        bool AddUserToGroupMeeting(int appointmentId, int userId);
+        List<User> GetParticipants(int appointmentId);
     }
 }
