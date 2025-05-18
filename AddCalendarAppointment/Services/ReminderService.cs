@@ -16,6 +16,9 @@ namespace AddCalendarAppointment.Services
             _ctx = ctx;
         }
 
+        public Reminder GetReminderById(int reminderId)
+                    => _ctx.Reminders.Find(reminderId);
+
         public void AddReminder(Reminder r)
         {
             _ctx.Reminders.Add(r);

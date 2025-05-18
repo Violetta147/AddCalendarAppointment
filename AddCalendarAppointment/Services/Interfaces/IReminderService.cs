@@ -8,6 +8,7 @@ namespace AddCalendarAppointment.Services.Interfaces
 {
     public interface IReminderService
     {
+        Reminder GetReminderById(int reminderId);
         void AddReminder(Reminder reminder);
         void UpdateReminder(Reminder reminder);
         void DeleteReminder(int reminderId);

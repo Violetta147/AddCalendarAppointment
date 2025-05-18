@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AddCalendarAppointment.Forms;
 using AddCalendarAppointment.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AddCalendarAppointment.Forms
 {
@@ -16,9 +17,11 @@ namespace AddCalendarAppointment.Forms
     {   
         private readonly IReminderService _remSvc;
         private readonly int _appointmentId;
-        public ReminderForm(IReminderService remSvc, int appointmentId, string appointmentName)
+        private readonly IServiceProvider _rootProvider;
+        public ReminderForm(IServiceProvider rootProvider, IReminderService remSvc, int appointmentId, string appointmentName)
         {
             InitializeComponent();
+            _rootProvider = rootProvider;
             _remSvc = remSvc;
             _appointmentId = appointmentId;
             txtAppointmentName.Text = appointmentName;
@@ -28,15 +31,15 @@ namespace AddCalendarAppointment.Forms
 
         private void btAddReminder_Click(object sender, EventArgs e)
         {
-            pnReminder.Controls.Clear();
-            UserControl reminderControl = new ReminderControl("");
-            reminderControl.Dock = DockStyle.Fill;
-            pnReminder.Controls.Add(reminderControl);
-        }
+            //pnReminder.Controls.Clear();
 
-        private void btListReminder_Click(object sender, EventArgs e)
-        {
-            LoadReminders();
+            var control = new ReminderControl();
+            control.Init(_rootProvider, _remSvc, _appointmentId, null);
+
+            control.Dock = DockStyle.Fill;
+            control.ReminderSaved += (_, __) => LoadReminders();
+            //pnReminder.Controls.Clear();
+            pnReminder.Controls.Add(control);
         }
         private void LoadReminders()
         {
@@ -59,11 +62,20 @@ namespace AddCalendarAppointment.Forms
         {
             if (dGVListReminder.SelectedRows.Count == 1)
             {
-                string reminderId = dGVListReminder.SelectedRows[0].Cells["Number"].Value.ToString();
-                pnReminder.Controls.Clear();
-                UserControl reminderControl = new ReminderControl(reminderId);
-                reminderControl.Dock = DockStyle.Fill;
-                pnReminder.Controls.Add(reminderControl);
+                int reminderId = Convert.ToInt32(dGVListReminder.SelectedRows[0].Cells["ReminderID"].Value);
+                //pnReminder.Controls.Clear();
+
+                var control = new ReminderControl();
+                control.Init(_rootProvider, _remSvc, _appointmentId, reminderId);
+                
+                control.Dock = DockStyle.Fill;
+                control.ReminderSaved += (_, __) => LoadReminders();
+                control.ReminderDeleted += (_, __) => {
+                    pnReminder.Controls.Clear();
+                    LoadReminders();
+                };
+
+                pnReminder.Controls.Add(control);
             }
             else
             {
